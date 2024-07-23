@@ -3,22 +3,7 @@ import Order from "../model/order.js";
 import { addMonths, format } from 'date-fns';
 
 export default class repo{
-    saveAuthority=async(data)=>{
-        try {
-            const checkAuthority=await Authority.findOne({shopName:data.shopName})
-            console.log(checkAuthority);
-            if(checkAuthority)
-            {
-                return({message:"already authority axists"})
-            }
-            const Authority =new Authority(data)
-            const saveAuthority=await Authority.save()
-            console.log(saveAuthority);
-            return saveAuthority
-        } catch (error) {
-            console.log(error);
-        }
-    }
+
     login=async(data)=>{
         try {
             const checkAuthority=await Authority.findOne({shopName:data.shopName})
@@ -30,6 +15,22 @@ export default class repo{
             }else{
                 return {message:false}
             }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    saveAuthority=async(data)=>{
+        try {
+            const checkAuthority=await Authority.findOne({shopName:data.shopName})
+            console.log(checkAuthority);
+            if(checkAuthority)
+            {
+                return({message:"already authority axists"})
+            }
+            const Authorities =new Authority(data)
+            const savedAuthority=await Authorities.save()
+            console.log(savedAuthority);
+            return savedAuthority
         } catch (error) {
             console.log(error);
         }
@@ -61,8 +62,9 @@ export default class repo{
     }
     getAuthority=async()=>{
         try {
-        const orders=await Authority.find()
-        return orders
+        const authority=await Authority.find()
+        console.log(authority);
+        return authority
         } catch (error) {
             console.log(error);
         }
