@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SideImage from '../../Assets/admin.jpg'
+import Logo from '../../Assets/logo.png'
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -19,6 +20,11 @@ function Login() {
         transition={{ duration: 0.5 }}
         className="bg-black p-8 rounded-2xl shadow-2xl w-full max-w-4xl mx-4"
       >
+        <img
+          src={Logo}
+          alt="Company Logo"
+          className="absolute top-6 left-4 w-40 object-contain hidden md:block cursor-pointer"
+        />
          <h1 className="text-4xl font-bold text-white mb-4 text-center">
           Welcome Back, Admin!
         </h1>
@@ -31,9 +37,9 @@ function Login() {
               src={SideImage}
               alt="Sign in illustration image"
               className="w-full max-w-sm rounded-lg "
-              initial={{ scale: 0.8 }}
+              initial={{ scale: 0.7 }}
               animate={{ scale: 1 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.7 }}
             />
           </div>
 
@@ -66,9 +72,6 @@ function Login() {
             >
               Log In
             </motion.button>
-            <p className="text-center text-gray-600">
-              Don't have an account? <a href="/signup" className="text-blue-600 hover:underline font-medium">Register here</a>
-            </p>
           </form>
         </div>
       </motion.div>
