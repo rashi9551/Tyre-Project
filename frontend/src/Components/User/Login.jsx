@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SideImage from '../../Assets/download (1).jpeg'
+import Logo from '../../Assets/logo.png'
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -19,6 +20,11 @@ function Login() {
         transition={{ duration: 0.5 }}
         className="bg-black p-8 rounded-2xl shadow-2xl w-full max-w-4xl mx-4"
       >
+         <img
+          src={Logo}
+          alt="Company Logo"
+          className="absolute top-6 left-4 w-40 object-contain hidden md:block cursor-pointer"
+        />
         <h1 className="text-4xl font-bold text-white mb-8 text-center">
           Log in to your Account!
         </h1>

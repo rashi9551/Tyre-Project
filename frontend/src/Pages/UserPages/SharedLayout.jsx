@@ -6,7 +6,7 @@ function SharedLayout() {
   return (
     <div className="flex">
     <Sidebar />
-    <div className="flex-1 p-4">
+    <div className="flex-1 ml-[16.67%] p-4">
       <Outlet />
     </div>
   </div>

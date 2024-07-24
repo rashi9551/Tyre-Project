@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SideImage from '../../Assets/Pellon Tyres and Auto Centre _ MOTs Servicing and Repairs in Halifax.jpeg'
+import Logo from '../../Assets/logo.png'
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -20,6 +21,11 @@ function Signup() {
         transition={{ duration: 0.5 }}
         className="bg-black p-8 rounded-2xl shadow-2xl w-full max-w-4xl mx-4"
       >
+         <img
+          src={Logo}
+          alt="Company Logo"
+          className="absolute top-6 left-4 w-40 hidden md:block object-contain cursor-pointer"
+        />
         <h1 className="text-4xl font-bold text-white mb-8 text-center">
           Signup and Get an Account!
         </h1>
