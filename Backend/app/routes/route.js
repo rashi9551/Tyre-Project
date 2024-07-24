@@ -8,6 +8,7 @@ route.post('/login', controll.login);
 route.post('/order', controll.order);
 route.get('/getOrders', controll.getOrders);
 route.get('/getAuthority', controll.getAuthority);
+route.get('/sendMessage', controll.sendMessage);
 
 
 export default route;

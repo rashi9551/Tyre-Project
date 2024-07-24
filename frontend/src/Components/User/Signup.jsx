@@ -2,16 +2,20 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import SideImage from '../../Assets/Pellon Tyres and Auto Centre _ MOTs Servicing and Repairs in Halifax.jpeg'
 import Logo from '../../Assets/logo.png'
+import axiosAuthor from '../../services/axios/authorityAxios';
 
 function Signup() {
-  const [username, setUsername] = useState('');
+  const [shopName, setname] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { username, phone, password });
+    const {data}=await axiosAuthor().post('/signup',{shopName,password,phone})
+    console.log(data);
+    console.log('Form submitted:', { shopName, phone, password });
   };
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 ">
@@ -46,8 +50,8 @@ function Signup() {
               <input
                 type="text"
                 placeholder="Full Name"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={shopName}
+                onChange={(e) => setname(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
               />

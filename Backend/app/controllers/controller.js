@@ -1,5 +1,7 @@
 import repo from "../repository/repo.js"
 import {createToken} from '../utils/jwt.js'
+import  request  from "request"
+
 const repository=new repo()
 
 export default class Controller {
@@ -55,6 +57,50 @@ export default class Controller {
             console.log(error);
         }
     }
+
+    sendMessage = async (req, res) => {
+        let resData = {
+            status: false,
+            answare: ''
+        };
+    
+        try {
+            const options = {
+                method: 'POST',
+                url: 'https://graph.facebook.com/v20.0/405381042649464/messages',
+                headers: {
+                    Authorization: `Bearer ${process.env.SECRET_KEY}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    messaging_product: 'whatsapp',
+                    to: '+919544429615',
+                    type: 'template',
+                    template: {
+                        name: 'hello_world',
+                        language: {
+                            code: 'en_US'
+                        }
+                    }
+                })
+            };
+    
+            request(options, function (error, response, body) {
+                if (error) {
+                    console.error('Error sending message:', error);
+                    resData.answare = error.message;
+                    return res.status(500).json(resData);
+                }
+                resData.status = true;
+                resData.answare = body;
+                return res.status(200).json(resData);
+            });
+        } catch (e) {
+            console.error('Error in sendMessage:', e);
+            resData.answare = e.message;
+            return res.status(500).json(resData);
+        }
+    };
 
     
 
