@@ -16,7 +16,6 @@ function Signup() {
     e.preventDefault();
     const {data}=await axiosAuthor().post('/signup',{shopName,password,phone})
     console.log(data);
-    console.log('Form submitted: ', { shopName, phone, password });
     console.log('Form submitted:', { shopName, phone, password });
     if(data.message==="already authority axists"){
       toast.error("Username Already Exist")
@@ -24,7 +23,6 @@ function Signup() {
       navigate('/');
     }
   };
-
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-200 ">

@@ -12,18 +12,17 @@ export const createToken = async (auth_id, expire) => {
     }
 };
 
-export const verifyToken = async(req, res) => {
-    try{
-        console.log("token validating  ");
-        const token = call.request.token || '';            
-        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN || "Rashid" )
-        if(!decoded){
+export const verifyToken = async (req, res, next) => {
+    try {
+        const token = req.cookies?.token || req.headers.authorization?.trim().split(" ")[1]; console.log("token validating  ", req.body);
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN || "Rashid")
+        if (!decoded) {
             throw new Error('Invalid token')
         }
-        res.status(201).res.json({userId : decoded.id, role: decoded.role})
-    }catch(e){
-        res.status(401).res.json({message:"something gone wrong in authentication"})
-     }
+        next();
+    } catch (e) {
+        res.status(401).json({ message: "something gone wrong in authentication" })
+    }
 }
 
 
