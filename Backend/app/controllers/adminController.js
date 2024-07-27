@@ -7,12 +7,13 @@ export default class adminControl {
     login=async(req,res)=>{
         try {
             const {name ,password}=req.body
+            console.log(name===process.env.admin,password==process.env.password);
             if(name===process.env.admin&& password===process.env.password){
                 const token=await createToken(name,'7d')
-                res.status(200).json({message:"Success",token})
+                res.status(200).json({message:true,token})
 
             }else{
-                res.status(200).json({message:"unAuthorised"})
+                res.status(200).json({message:false})
             }
         } catch (error) {
             console.log(error);

@@ -5,7 +5,7 @@ import Logo from '../../Assets/logo.png'
 import axiosAuthor from '../../services/axios/authorityAxios';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
-import { loginData } from '../../Redux/Slice';
+import { adminLogin } from '../../Redux/Slice.js';
 import { useDispatch } from 'react-redux';
 
 
@@ -19,12 +19,13 @@ function Login() {
   const handleSubmit = async(e) => {
     e.preventDefault();
     console.log('Form submitted:', { username, password });
-    const {data}=await axiosAuthor().post('/admin/login',{username,password})
-    if(data.response.message){
+    const {data}=await axiosAuthor().post('/admin/login',{name:username,password})
+    console.log(data);
+    if(data.message){
       toast.success("Login Successfully")
-      data.response.checkAuthority.role="admin"
-      dispatch(loginData,data.response.checkAuthority)
-      navigate('/admin/dasborad')
+      data.role="admin"
+      dispatch(adminLogin())
+      navigate('/admin/dashboard')
     }else{
       toast.error("Invalid Credentials")
     }
