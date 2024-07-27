@@ -14,10 +14,6 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     required: true
   },
-  category: {
-    type: String,
-    required: true
-  },
   productName: {
     type: String,
     required: true
