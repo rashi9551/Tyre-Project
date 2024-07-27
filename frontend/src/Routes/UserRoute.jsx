@@ -6,6 +6,7 @@ import SharedLayout from "../Pages/UserPages/SharedLayout";
 import Dashboard from "../Pages/UserPages/Dashboard";
 import TyresManagement from "../Pages/UserPages/TyresManagement";
 import OilsManagement from "../Pages/UserPages/OilsManagement";
+import { Toaster } from "sonner";
 
 function UserRoute() {
   return (
@@ -19,6 +20,7 @@ function UserRoute() {
           <Route path="/oils" element={<OilsManagement />} />
         </Route>
       </Routes>
+      <Toaster position="top-center" richColors/>
     </div>
   );
 }

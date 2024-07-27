@@ -3,17 +3,25 @@ import { motion } from 'framer-motion';
 import SideImage from '../../Assets/Pellon Tyres and Auto Centre _ MOTs Servicing and Repairs in Halifax.jpeg'
 import Logo from '../../Assets/logo.png'
 import axiosAuthor from '../../services/axios/authorityAxios';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 
 function Signup() {
   const [shopName, setname] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+  const navigate=useNavigate()
 
   const handleSubmit =async (e) => {
     e.preventDefault();
     const {data}=await axiosAuthor().post('/signup',{shopName,password,phone})
     console.log(data);
     console.log('Form submitted:', { shopName, phone, password });
+    if(data.message==="already authority axists"){
+      toast.error("Username Already Exist")
+    }else{
+      navigate('/');
+    }
   };
 
 
@@ -49,7 +57,7 @@ function Signup() {
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <input
                 type="text"
-                placeholder="Full Name"
+                placeholder="Shop Name"
                 value={shopName}
                 onChange={(e) => setname(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"

@@ -3,6 +3,7 @@ import LoginPage from '../Pages/AdminPages/LoginPage';
 import { Routes, Route } from "react-router-dom";
 import AdminDashboard from '../Pages/AdminPages/DashboardPage';
 import AdminLayout from '../Pages/AdminPages/AdminLayout';
+import { Toaster } from 'sonner';
 
 function UserRoute() {
     return (
@@ -13,6 +14,7 @@ function UserRoute() {
             <Route path='/dashboard' element={<AdminDashboard/>} />
             </Route>
             </Routes>
+            <Toaster position="top-center" richColors/>
         </div >
     )
 }
