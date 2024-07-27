@@ -11,60 +11,32 @@ import {
 import { styled } from '@mui/material/styles';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css';
-
+import axiosUser from '../../services/axios/authorityAxios';
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   margin: theme.spacing(4, 0),
   borderRadius: theme.shape.borderRadius * 2,
 }));
-const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
-  '& .special-label': {
-    display: 'none',
-  },
-  '& .form-control': {
-    width: '100%',
-    height: '56px',
-    fontSize: '16px',
-    borderRadius: theme.shape.borderRadius,
-    fontFamily: theme.typography.fontFamily,
-    border: `1px solid ${theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.23)' : 'rgba(255, 255, 255, 0.23)'}`,
-    '&:focus': {
-      borderColor: theme.palette.primary.main,
-      boxShadow: `${theme.palette.primary.main} 0 0 0 1px`,
-    },
-    '&:hover': {
-      borderColor: theme.palette.text.primary,
-    },
-  },
-  '& .flag-dropdown': {
-    background: 'transparent',
-    border: 'none',
-    '& .selected-flag': {
-      backgroundColor: 'transparent',
-      '&:hover, &:focus': {
-        backgroundColor: 'transparent',
-      },
-    },
-  },
-}));
+
 
 function Tyres() {
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
     phone: '',
     productName: '',
     amount: '',
-    dueMonths: ''
+    vehicle:'',
+    dueDate: ''
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Add your form submission logic here
+    const {data}=await axiosUser().post('/order',formData)
+    console.log(data);
   };
 
   // Get today's date in YYYY-MM-DD format
@@ -81,11 +53,11 @@ function Tyres() {
             margin="normal"
             required
             fullWidth
-            id="username"
+            id="name"
             label="User Name"
-            name="username"
+            name="name"
             autoComplete="name"
-            value={formData.username}
+            value={formData.name}
             onChange={handleChange}
           />
           <PhoneInput
@@ -119,6 +91,17 @@ function Tyres() {
             value={formData.productName}
             onChange={handleChange}
           />
+           <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="vehicle"
+            label="vehicle No"
+            name="vehicle"
+            type="text"
+            value={formData.vehicle}
+            onChange={handleChange}
+          />
           <TextField
             margin="normal"
             required
@@ -130,6 +113,7 @@ function Tyres() {
             value={formData.amount}
             onChange={handleChange}
           />
+
           <TextField
             margin="normal"
             fullWidth
@@ -145,11 +129,11 @@ function Tyres() {
             margin="normal"
             required
             fullWidth
-            id="dueMonths"
+            id="dueDate"
             select
             label="Due Date (Months)"
-            name="dueMonths"
-            value={formData.dueMonths}
+            name="dueDate"
+            value={formData.dueDate}
             onChange={handleChange}
           >
             <MenuItem value="" disabled>

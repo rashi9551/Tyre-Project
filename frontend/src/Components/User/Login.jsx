@@ -10,20 +10,22 @@ import { useDispatch } from 'react-redux';
 
 
 function Login() {
-  const [shopname, setShopname] = useState('');
+  const [shopName, setshopName] = useState('');
   const [password, setPassword] = useState('');
   const navigate=useNavigate()
   const dispatch=useDispatch()
 
   const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log('Form submitted:', { shopname, password });
-    const {data}=await axiosAuthor().post('/login',{shopname,password})
-    if(data.response.message){
+    console.log('Form submitted:', { shopName, password });
+    const {data}=await axiosAuthor().post('/login',{shopName,password})
+    console.log(data,'----');
+    if(data.message){
       toast.success("Login Successfully")
-      data.response.checkAuthority.role="user"
-      dispatch(loginData,data.response.checkAuthority)
-      navigate('/dasborad')
+      data.checkAuthority.role="user"
+      localStorage.setItem('userToken',data.token)
+      dispatch(loginData(data.checkAuthority))
+      navigate('/dashboard')
     }else{
       toast.error("Invalid Credentials")
     }
@@ -63,8 +65,8 @@ function Login() {
               <input
                 type="text"
                 placeholder="Shop Name"
-                value={shopname}
-                onChange={(e) => setShopname(e.target.value)}
+                value={shopName}
+                onChange={(e) => setshopName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
               />
