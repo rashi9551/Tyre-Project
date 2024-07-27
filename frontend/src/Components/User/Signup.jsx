@@ -13,7 +13,7 @@ function Signup() {
     e.preventDefault();
     const {data}=await axiosAuthor().post('/signup',{shopName,password,phone})
     console.log(data);
-    console.log('Form submitted:', { shopName, phone, password });
+    console.log('Form submitted: ', { shopName, phone, password });
   };
 
 

@@ -12,17 +12,18 @@ export const createToken = async (auth_id, expire) => {
     }
 };
 
-export const verifyOtpToken = (token) => {
-    const secretKey = process.env.USER_SECRET_KEY || "Rashid";
-    console.log(token);
-    try {
-        const decodedToken = jwt.verify(token, secretKey);
-        console.log(decodedToken, "decode");
-        return decodedToken;
-    } catch (error) {
-        console.error('Token verification failed:', error.message);
-        return { message: "invalid otp" };
-    }
-};
+export const verifyToken = async(req, res) => {
+    try{
+        console.log("token validating  ");
+        const token = call.request.token || '';            
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN || "Rashid" )
+        if(!decoded){
+            throw new Error('Invalid token')
+        }
+        res.status(201).res.json({userId : decoded.id, role: decoded.role})
+    }catch(e){
+        res.status(401).res.json({message:"something gone wrong in authentication"})
+     }
+}
 
 
