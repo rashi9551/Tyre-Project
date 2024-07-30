@@ -7,6 +7,9 @@ export default class repo {
     login = async (data) => {
         try {
             const checkAuthority = await Authority.findOne({ shopName: data.shopName })
+            if(!checkAuthority){
+                return { message: false }
+            }
             console.log(data, checkAuthority);
             const isMatch = await checkAuthority.matchPassword(data.password)
             console.log(isMatch);
