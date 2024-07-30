@@ -22,7 +22,6 @@ function Login() {
     console.log(data,'----');
     if(data.message){
       toast.success("Login Successfully")
-      data.checkAuthority.role="user"
       localStorage.setItem('userToken',data.token)
       dispatch(loginData(data.checkAuthority))
       navigate('/dashboard')

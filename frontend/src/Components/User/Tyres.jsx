@@ -12,6 +12,9 @@ import { styled } from '@mui/material/styles';
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/material.css';
 import axiosUser from '../../services/axios/authorityAxios';
+import {useSelector} from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   margin: theme.spacing(4, 0),
@@ -20,23 +23,29 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 
 
 function Tyres() {
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
     productName: '',
     amount: '',
-    vehicle:'',
+    vehicleNumber:'',
     dueDate: ''
   });
-
+  const {shopName}=useSelector((store)=>store.UserData)
+  console.log(shopName);
   const handleChange = (e) => {
+    console.log(e.target.value);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    const {data}=await axiosUser().post('/order',formData)
-    console.log(data);
+    const {data}=await axiosUser().post('/order',{...formData,shopName})
+    if(data.message){
+      navigate('/dashboard')
+      toast.success("Order Created Succesfully")
+    }
   };
 
   // Get today's date in YYYY-MM-DD format
@@ -54,7 +63,7 @@ function Tyres() {
             required
             fullWidth
             id="name"
-            label="User Name"
+            label="name"
             name="name"
             autoComplete="name"
             value={formData.name}
@@ -95,11 +104,11 @@ function Tyres() {
             margin="normal"
             required
             fullWidth
-            id="vehicle"
-            label="vehicle No"
-            name="vehicle"
+            id="vehicleNumber"
+            label="vehicleNumber No"
+            name="vehicleNumber"
             type="text"
-            value={formData.vehicle}
+            value={formData.vehicleNumber}
             onChange={handleChange}
           />
           <TextField

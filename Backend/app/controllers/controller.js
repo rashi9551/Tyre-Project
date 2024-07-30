@@ -25,6 +25,14 @@ export default class Controller {
                 res.status(200).json({ token, ...response })
             } else {
                 res.status(200).json({ message: false })
+
+            if(response.message)
+            {
+                const token=await createToken(response._id,'7d')
+                res.status(200).json({token,...response})
+            }else{
+                res.status(200).json({message:false})
+main
             }
 
         } catch (error) {

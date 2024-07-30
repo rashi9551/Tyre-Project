@@ -49,7 +49,7 @@ export default class repo {
             });
             const orderCreated = await order.save()
             console.log(orderCreated);
-            return orderCreated
+            return {...orderCreated,message:true}
         } catch (error) {
             console.log(error);
         }
