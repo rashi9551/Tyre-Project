@@ -4,8 +4,11 @@ import { Routes, Route } from "react-router-dom";
 import AdminDashboard from '../Pages/AdminPages/DashboardPage';
 import AdminLayout from '../Pages/AdminPages/AdminLayout';
 import { Toaster } from 'sonner';
+import { useSelector } from 'react-redux';
 
 function UserRoute() {
+  const  admin  =  useSelector((store) => store.UserData.isAuthenticated);
+
     return (
         <div>
             <Routes>
