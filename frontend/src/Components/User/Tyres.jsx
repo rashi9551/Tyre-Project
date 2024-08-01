@@ -42,7 +42,7 @@ function Tyres() {
   const handleSubmit =async (e) => {
     e.preventDefault();
     console.log('pppppppppppppppp');
-    const {data}=await axiosUser().post('/order',{formData,shopName})
+    const {data}=await axiosUser().post('/orderTyre',{formData,shopName})
     console.log(data,'00');
     if(data.message){
       navigate('/dashboard')

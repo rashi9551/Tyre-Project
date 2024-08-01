@@ -1,4 +1,9 @@
 import React, { useState } from 'react';
+import axiosUser from '../../services/axios/authorityAxios';
+import {useSelector} from 'react-redux'
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
 import { 
   TextField, 
   Button, 
@@ -49,10 +54,13 @@ const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
 }));
 
 function Oils() {
+  const {shopName}=useSelector((store)=>store.UserData)
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
-    username: '',
+    name:'',
     phone: '',
     productName: '',
+    vehicleNumbe:'',
     amount: '',
     dueMonths: ''
   });
@@ -61,9 +69,15 @@ function Oils() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
+    console.log('pppppppppppppppp');
+    const {data}=await axiosUser().post('/orderOil',{formData,shopName})
+    console.log(data,'00');
+    if(data.message){
+      navigate('/dashboard')
+      toast.success("Order Created Succesfully")
+    }
   };
 
   // Get today's date in YYYY-MM-DD format
@@ -80,11 +94,11 @@ function Oils() {
             margin="normal"
             required
             fullWidth
-            id="username"
+            id="name"
             label="User Name"
-            name="username"
+            name="name"
             autoComplete="name"
-            value={formData.username}
+            value={formData.name}
             onChange={handleChange}
           />
           <PhoneInput
@@ -116,6 +130,17 @@ function Oils() {
             label="Product Name"
             name="productName"
             value={formData.productName}
+            onChange={handleChange}
+          />
+           <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="vehicleNumber"
+            label="vehicleNumber No"
+            name="vehicleNumber"
+            type="text"
+            value={formData.vehicleNumber}
             onChange={handleChange}
           />
           <TextField
