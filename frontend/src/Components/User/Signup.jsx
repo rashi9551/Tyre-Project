@@ -7,20 +7,52 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
 function Signup() {
-  const [shopName, setname] = useState('');
+  const [shopName, setShopName] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const navigate=useNavigate()
+  const navigate = useNavigate()
 
-  const handleSubmit =async (e) => {
+  const validateForm = () => {
+    if (!shopName.trim()) {
+      toast.error("Shop name cannot be empty");
+      return false;
+    }
+    if (!phone.trim() || phone.length <= 8) {
+      toast.error("Mobile number should be greater than 8 digits");
+      return false;
+    }
+    if (!password.trim() || password.length <= 5) {
+      toast.error("Password should be greater than 5 characters");
+      return false;
+    }
+    return true;
+  };
+  const handlePhoneChange = (e) => {
+    const value = e.target.value;
+    const numericValue = value.replace(/\D/g, '');
+    
+    if (value !== numericValue) {
+      toast.error("Please enter numbers only for the phone number");
+    }
+    
+    setPhone(numericValue);
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {data}=await axiosAuthor().post('/signup',{shopName,password,phone})
-    console.log(data);
-    console.log('Form submitted:', { shopName, phone, password });
-    if(data.message==="already authority axists"){
-      toast.error("Username Already Exist")
-    }else{
-      navigate('/');
+    if (!validateForm()) return;
+
+    try {
+      const { data } = await axiosAuthor().post('/signup', { shopName, password, phone });
+      console.log(data);
+      if (data.message === "already authority axists") {
+        toast.error("Authority Already Exists");
+      } else {
+        toast.success("Registration successful!");
+        navigate('/');
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      toast.error("An error occurred during signup");
     }
   };
 
@@ -58,20 +90,20 @@ function Signup() {
                 type="text"
                 placeholder="Shop Name"
                 value={shopName}
-                onChange={(e) => setname(e.target.value)}
+                onChange={(e) => setShopName(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
                 required
               />
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-              <input
-                type="tel"
-                placeholder="Mobile Number"
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
-                required
-              />
+            <input
+  type="tel"
+  placeholder="Mobile Number"
+  value={phone}
+  onChange={handlePhoneChange}
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300"
+  required
+/>
             </motion.div>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <input

@@ -41,14 +41,15 @@ function Tyres() {
 
   const handleSubmit =async (e) => {
     e.preventDefault();
-    const {data}=await axiosUser().post('/order',{...formData,shopName})
+    console.log('pppppppppppppppp');
+    const {data}=await axiosUser().post('/order',{formData,shopName})
+    console.log(data,'00');
     if(data.message){
       navigate('/dashboard')
       toast.success("Order Created Succesfully")
     }
   };
 
-  // Get today's date in YYYY-MM-DD format
   const today = new Date().toISOString().split('T')[0];
 
   return (

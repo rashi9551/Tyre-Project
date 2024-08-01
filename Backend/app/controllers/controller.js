@@ -13,15 +13,20 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in signup' });
+        }
+    };
             res.status(500).json({ message: "Internal Server Error" });
         }
     }
+
 
     login = async (req, res) => {
         try {
             const data = req.body;
             const response = await repository.login(data);
             console.log(response);
+
             if (response.message) {
                 const token = await createToken(response._id, '7d');
                 res.status(200).json({ token, ...response });
@@ -30,9 +35,15 @@ export default class Controller {
             }
         } catch (error) {
             console.log(error);
+
+            res.status(500).json({ message: 'Error in login' });
+        }
+    };
+
             res.status(500).json({ message: "Internal Server Error" });
         }
     }
+
 
     order = async (req, res) => {
         try {
@@ -41,9 +52,15 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
+
+            res.status(500).json({ message: 'Error in order' });
+        }
+    };
+
             res.status(500).json({ message: "Internal Server Error" });
         }
     }
+
 
     getOrders = async (req, res) => {
         try {
@@ -51,9 +68,14 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in getOrders' });
+        }
+    };
+
             res.status(500).json({ message: "Internal Server Error" });
         }
     }
+
 
     getAuthority = async (req, res) => {
         try {
@@ -61,9 +83,13 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
+
+            res.status(500).json({ message: 'Error in getAuthority' });
+
             res.status(500).json({ message: "Internal Server Error" });
+
         }
-    }
+    };
 
     sendMessage = async (req, res) => {
         let resData = {
@@ -120,5 +146,10 @@ export default class Controller {
             resData.answer = e.message;
             return res.status(500).json(resData);
         }
+
+    };
+
+
     }
+
 }

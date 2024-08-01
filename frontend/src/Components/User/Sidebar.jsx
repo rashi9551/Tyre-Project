@@ -1,7 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
+import { logout } from '../../Redux/Slice';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
 
 function Sidebar() {
+  const dispatch = useDispatch();
+  let navigate=useNavigate()
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/')
+   
+  };
   return (
     <div className='w-1/6 bg-gray-600 fixed h-full px-4 py-2'>
       <div className='my-2 mb-4'>
@@ -25,6 +36,11 @@ function Sidebar() {
           <li className='mb-2 rounded hover:shadow hover:bg-blue-500 py-2'>
             Oils
           </li>
+          <Link to='#' className='' onClick={handleLogout}>
+          <li className='mb-2 rounded hover:shadow hover:bg-blue-500 py-2'>
+            Logout
+          </li>
+        </Link>
         </Link>
       </ul>
     </div>
