@@ -1,11 +1,11 @@
 import repo from "../repository/repo.js";
 import { createToken } from '../utils/jwt.js';
+import { sendMessageTyre } from '../middleware/sendMessage.js';
 import request from "request";
-import {sendMessageTyre} from '../middleware/sendMessage.js'
+
 const repository = new repo();
 
 export default class Controller {
-
     signup = async (req, res) => {
         try {
             const data = req.body;
@@ -13,15 +13,16 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" });
+            res.status(500).json({ message: 'Error in signup' });
         }
-    }
+    };
 
     login = async (req, res) => {
         try {
             const data = req.body;
             const response = await repository.login(data);
             console.log(response);
+
             if (response.message) {
                 const token = await createToken(response._id, '7d');
                 res.status(200).json({ token, ...response });
@@ -30,33 +31,35 @@ export default class Controller {
             }
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" });
+            res.status(500).json({ message: 'Error in login' });
         }
-    }
+    };
 
     orderTyre = async (req, res) => {
         try {
             const data = req.body;
             const response = await repository.order(data);
-            if(response.message){
-                await sendMessageTyre()
+            if (response.message) {
+                await sendMessageTyre();
             }
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" });
+            res.status(500).json({ message: 'Internal Server Error' });
         }
-    }
+    };
+
     orderOil = async (req, res) => {
+        // Assuming this is a placeholder for future implementation
         try {
             const data = req.body;
             const response = await repository.order(data);
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" });
+            res.status(500).json({ message: 'Error in order' });
         }
-    }
+    };
 
     getOrders = async (req, res) => {
         try {
@@ -64,9 +67,9 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" });
+            res.status(500).json({ message: 'Error in getOrders' });
         }
-    }
+    };
 
     getAuthority = async (req, res) => {
         try {
@@ -74,9 +77,9 @@ export default class Controller {
             res.status(200).json(response);
         } catch (error) {
             console.log(error);
-            res.status(500).json({ message: "Internal Server Error" });
+            res.status(500).json({ message: 'Error in getAuthority' });
         }
-    }
+    };
 
     sendMessage = async (req, res) => {
         let resData = {
@@ -133,5 +136,5 @@ export default class Controller {
             resData.answer = e.message;
             return res.status(500).json(resData);
         }
-    }
+    };
 }
