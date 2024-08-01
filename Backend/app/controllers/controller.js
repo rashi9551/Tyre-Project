@@ -1,7 +1,7 @@
 import repo from "../repository/repo.js";
 import { createToken } from '../utils/jwt.js';
 import request from "request";
-
+import {sendMessageTyre} from '../middleware/sendMessage.js'
 const repository = new repo();
 
 export default class Controller {
@@ -34,7 +34,20 @@ export default class Controller {
         }
     }
 
-    order = async (req, res) => {
+    orderTyre = async (req, res) => {
+        try {
+            const data = req.body;
+            const response = await repository.order(data);
+            if(response.message){
+                await sendMessageTyre()
+            }
+            res.status(200).json(response);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    }
+    orderOil = async (req, res) => {
         try {
             const data = req.body;
             const response = await repository.order(data);

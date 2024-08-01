@@ -6,7 +6,8 @@ const controll=new Controller()
 
 route.post('/signup', controll.signup);
 route.post('/login', controll.login);
-route.post('/order', verifyToken,controll.order);
+route.post('/orderTyre', verifyToken,controll.orderTyre);
+route.post('/orderOil', verifyToken,controll.orderOil);
 route.get('/getOrders',verifyToken, controll.getOrders);
 route.get('/sendMessage',verifyToken, controll.sendMessage);
 
