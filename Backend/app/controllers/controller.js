@@ -40,7 +40,8 @@ export default class Controller {
             const data = req.body;
             const response = await repository.order(data);
             if (response.message) {
-                await sendMessageTyre();
+                const MessageResponse=await sendMessageTyre();
+                console.log(MessageResponse,"=-=-=-=-");
             }
             res.status(200).json(response);
         } catch (error) {
