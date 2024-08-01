@@ -1,7 +1,9 @@
 import repo from "../repository/repo.js";
 import { createToken } from '../utils/jwt.js';
 import { sendMessageTyre } from '../middleware/sendMessage.js';
+import { sendMessageTyreOrder } from '../middleware/sendMessage.js';
 import request from "request";
+import cron from 'node-cron'
 
 const repository = new repo();
 
@@ -38,14 +40,57 @@ export default class Controller {
     orderTyre = async (req, res) => {
         try {
             const data = req.body;
+            const { dueDate } = data.formData;
             const response = await repository.order(data);
+    
             if (response.message) {
-                const MessageResponse=await sendMessageTyre();
-                console.log(MessageResponse,"=-=-=-=-");
+                const MessageResponse = await sendMessageTyre()
+                console.log(MessageResponse,"ithu first ponney");
+                const monthsToAdd = parseInt(dueDate, 10);
+                if (isNaN(monthsToAdd) || monthsToAdd < 1 || monthsToAdd > 12) {
+                    throw new Error('Invalid dueDate value');
+                }
+    
+                // Calculate the future date
+                const futureDate = new Date();
+                futureDate.setMonth(futureDate.getMonth() + monthsToAdd);
+    
+                // // Extract the parts for the cron expression
+                
+                // const minutes = futureDate.getMinutes();
+                // const hours = futureDate.getHours();
+                // const day = futureDate.getDate();
+                // const month = futureDate.getMonth() + 1; // Months are 0-based in JavaScript
+    
+                // // Create a cron expression: "minute hour day month *"
+                // const cronExpression = `${minutes} ${hours} ${day} ${month} *`;
+
+                const now = new Date();
+                const minutes = now.getMinutes() + 2;
+                const hours = now.getHours();
+                const day = now.getDate();
+                const month = now.getMonth() + 1; // Months are 0-based in JavaScript
+    
+                // Create a cron expression for 1 minute from now
+                const cronExpression = `${minutes % 60} ${hours} ${day} ${month} *`;
+    
+                // Schedule the cron job
+                cron.schedule(cronExpression, async () => {
+                    console.log('Sending scheduled message...');
+                    try {
+                        const MessageResponse = await sendMessageTyreOrder();
+                        console.log(MessageResponse, "=-=-=-=-");
+                    } catch (messageError) {
+                        console.error('Error sending message:', messageError);
+                    }
+                });
+    
+                console.log(`Cron job scheduled for ${futureDate}`);
             }
+            
             res.status(200).json(response);
         } catch (error) {
-            console.log(error);
+            console.error(error);
             res.status(500).json({ message: 'Internal Server Error' });
         }
     };
