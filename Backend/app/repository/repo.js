@@ -7,7 +7,7 @@ export default class repo {
     login = async (data) => {
         try {
             const checkAuthority = await Authority.findOne({ shopName: data.shopName })
-            if(!checkAuthority){
+            if (!checkAuthority) {
                 return { message: false }
             }
             console.log(data, checkAuthority);
@@ -39,17 +39,18 @@ export default class repo {
     }
     order = async (data) => {
         try {
-            const { dueDate, ...orderData } = data;
+            console.log('ppp----', data.formData);
+            const { shopName, formData: { name, phone, productName, amount, vehicleNumber, dueDate } } = data;
             const dueDateCalculated = addMonths(new Date(), parseInt(dueDate, 10) || 0);
             console.log(format(dueDateCalculated, 'yyyy-MM-dd'));
             const order = new Order({
-                ...orderData,
+                name, shopName, phone, productName, amount, vehicleNumber,
                 date: new Date(),
                 dueDate: dueDateCalculated
             });
             const orderCreated = await order.save()
             console.log(orderCreated);
-            return {...orderCreated,message:true}
+            return { ...orderCreated, message: true }
         } catch (error) {
             console.log(error);
         }

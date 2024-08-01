@@ -19,6 +19,7 @@ export const verifyToken = async (req, res, next) => {
         if (!decoded) {
             throw new Error('Invalid token')
         }
+        console.log('nexttttt');
         next();
     } catch (e) {
         res.status(401).json({ message: "something gone wrong in authentication" })

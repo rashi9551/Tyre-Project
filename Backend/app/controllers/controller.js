@@ -1,74 +1,75 @@
-import repo from "../repository/repo.js"
-import { createToken } from '../utils/jwt.js'
-import request from "request"
+import repo from "../repository/repo.js";
+import { createToken } from '../utils/jwt.js';
+import request from "request";
 
-const repository = new repo()
+const repository = new repo();
 
 export default class Controller {
 
     signup = async (req, res) => {
         try {
-            const data = req.body
-            const reponse = await repository.saveAuthority(data)
-            res.status(200).json(reponse)
+            const data = req.body;
+            const response = await repository.saveAuthority(data);
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in signup' });
         }
-    }
+    };
+
     login = async (req, res) => {
         try {
-            const data = req.body
-            const response = await repository.login(data)
+            const data = req.body;
+            const response = await repository.login(data);
             console.log(response);
+
             if (response.message) {
-                const token = await createToken(response._id, '7d')
-                res.status(200).json({ token, ...response })
+                const token = await createToken(response._id, '7d');
+                res.status(200).json({ token, ...response });
             } else {
-                res.status(200).json({ message: false })
-
-            if(response.message)
-            {
-                const token=await createToken(response._id,'7d')
-                res.status(200).json({token,...response})
-            }else{
-                res.status(200).json({message:false})
-main
+                res.status(200).json({ message: false });
             }
-
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in login' });
         }
-    }
+    };
+
     order = async (req, res) => {
         try {
-            const data = req.body
-            const response = await repository.order(data)
-            res.status(200).json(response)
+            const data = req.body;
+            const response = await repository.order(data);
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in order' });
         }
-    }
+    };
+
     getOrders = async (req, res) => {
         try {
-            const response = await repository.getOrders()
-            res.status(200).json(response)
+            const response = await repository.getOrders();
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in getOrders' });
         }
-    }
+    };
+
     getAuthority = async (req, res) => {
         try {
-            const response = await repository.getAuthority()
-            res.status(200).json(response)
+            const response = await repository.getAuthority();
+            res.status(200).json(response);
         } catch (error) {
             console.log(error);
+            res.status(500).json({ message: 'Error in getAuthority' });
         }
-    }
+    };
 
     sendMessage = async (req, res) => {
         let resData = {
             status: false,
-            answare: ''
+            answer: ''
         };
 
         try {
@@ -95,20 +96,18 @@ main
             request(options, function (error, response, body) {
                 if (error) {
                     console.error('Error sending message:', error);
-                    resData.answare = error.message;
+                    resData.answer = error.message;
                     return res.status(500).json(resData);
                 }
                 resData.status = true;
-                resData.answare = body;
+                resData.answer = body;
                 return res.status(200).json(resData);
             });
         } catch (e) {
             console.error('Error in sendMessage:', e);
-            resData.answare = e.message;
+            resData.answer = e.message;
             return res.status(500).json(resData);
         }
     };
-
-
 
 }
