@@ -14,7 +14,7 @@ function UserRoute() {
             <Routes>
             <Route path='/' element={admin ? <Navigate to="/admin/dashboard" /> : <LoginPage />} />
             <Route element={<AdminLayout/>}>
-            <Route path='/dashboard' element={admin ? <Navigate to="/admin/dashboard" /> : <LoginPage />} />
+            <Route path='/dashboard' element={admin ? <AdminDashboard /> : <LoginPage />} />
             </Route>
             </Routes>
             <Toaster position="top-center" richColors/>
