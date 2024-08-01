@@ -8,7 +8,7 @@ export default class repo {
         try {
             const checkAuthority = await Authority.findOne({ shopName: data.shopName })
             if (!checkAuthority) {
-                return { message: false }
+                return { message: false  }
             }
             console.log(data, checkAuthority);
             const isMatch = await checkAuthority.matchPassword(data.password)
