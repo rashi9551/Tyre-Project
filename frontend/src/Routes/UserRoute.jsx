@@ -8,6 +8,7 @@ import TyresManagement from "../Pages/UserPages/TyresManagement";
 import OilsManagement from "../Pages/UserPages/OilsManagement";
 import { Toaster } from "sonner";
 import { useSelector } from "react-redux";
+import TyresPurchaseManagement from "../Pages/UserPages/TyresPurchaseManagement";
 
 function UserRoute() {
   const  user  =  useSelector((store) => store.UserData.isAuthenticated);
@@ -21,6 +22,8 @@ function UserRoute() {
           <Route path="/dashboard" element={!user ? <Navigate to="/" /> : <Dashboard />}  />
           <Route path="/tyres" element={!user ? <Navigate to="/" /> : <TyresManagement />}  />
           <Route path="/oils" element={!user ? <Navigate to="/" /> : <OilsManagement />}  />
+          <Route path="/tyresOrder" element={!user ? <Navigate to="/" /> : <TyresPurchaseManagement />}  />
+
         </Route>
       </Routes>
       <Toaster position="top-center" richColors/>

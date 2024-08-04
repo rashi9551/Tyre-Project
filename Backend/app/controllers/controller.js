@@ -37,11 +37,11 @@ export default class Controller {
         }
     };
 
-    orderTyre = async (req, res) => {
+    orderAlign = async (req, res) => {
         try {
             const data = req.body;
             const { dueDate } = data.formData;
-            data.category = 'tyre'
+            data.category = 'tyreAlign'
             const response = await repository.order(data);
 
             if (response.message) {
@@ -110,6 +110,18 @@ export default class Controller {
         }
     };
 
+    orderTyre = async (req, res) => {
+        try {
+            console.log('tyre purchse data', req.body);
+            const data = req.body;
+            data.category = 'tyre'
+            const response = await repository.order(data);
+            res.status(200).json(response);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error in order tyre pruchase' });
+        }
+    }
     getOrders = async (req, res) => {
         try {
             const response = await repository.getOrders();

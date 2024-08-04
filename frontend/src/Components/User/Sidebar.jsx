@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../Redux/Slice';
-import { FaTachometerAlt, FaCar, FaOilCan, FaSignOutAlt } from 'react-icons/fa';
+import { FaTachometerAlt, FaAlignCenter, FaCartPlus, FaOilCan, FaSignOutAlt } from 'react-icons/fa';
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -28,8 +28,14 @@ function Sidebar() {
         </Link>
         <Link to='/tyres' className='block py-3 px-4 transition duration-200 hover:bg-gray-700 hover:text-white'>
           <div className='flex items-center'>
-            <FaCar className='mr-3' />
-            <span>Tyres</span>
+            <FaAlignCenter className='mr-3' />
+            <span>Tyres Alignment</span>
+          </div>
+        </Link>
+        <Link to='/tyresOrder' className='block py-3 px-4 transition duration-200 hover:bg-gray-700 hover:text-white'>
+          <div className='flex items-center'>
+            <FaCartPlus className='mr-3' />
+            <span>Tyres Order</span>
           </div>
         </Link>
         <Link to='/oils' className='block py-3 px-4 transition duration-200 hover:bg-gray-700 hover:text-white'>
@@ -40,8 +46,8 @@ function Sidebar() {
         </Link>
       </nav>
       <div className='absolute bottom-0 w-full'>
-        <button 
-          onClick={handleLogout} 
+        <button
+          onClick={handleLogout}
           className='block w-full py-3 px-4 transition duration-200 hover:bg-red-600 hover:text-white text-left'
         >
           <div className='flex items-center'>
