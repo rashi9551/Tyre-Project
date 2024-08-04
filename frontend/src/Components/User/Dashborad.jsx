@@ -1,10 +1,20 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
+import axiosUser from '../../services/axios/authorityAxios';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title } from 'chart.js';
 import { Doughnut, Bar } from 'react-chartjs-2';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
 function Dashboard() {
+  const {shopName}=useSelector((store)=>store.UserData)
+  const fetchUser=async()=>{
+    try {
+      const {data}=await axiosUser().post('/graphdata',shopName)
+    } catch (error) {
+      console.log(error);
+    }
+  }
   const tyreData = {
     labels: ['Car Tyres', 'Truck Tyres', 'Bike Tyres'],
     datasets: [

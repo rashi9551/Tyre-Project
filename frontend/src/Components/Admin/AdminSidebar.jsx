@@ -29,6 +29,12 @@ function AdminSidebar() {
             <span>Dashboard</span>
           </div>
         </Link>
+        <Link to='/admin/sendOffer' className={`block py-3 px-4 transition duration-200 ${isActive('/admin/sales') ? 'bg-blue-600 text-white' : 'hover:bg-gray-700 hover:text-white'}`}>
+          <div className='flex items-center'>
+            <FaChartLine className='mr-3' />
+            <span>Send Offer</span>
+          </div>
+        </Link>
         <Link to='/admin/customers' className={`block py-3 px-4 transition duration-200 ${isActive('/admin/customers') ? 'bg-blue-600 text-white' : 'hover:bg-gray-700 hover:text-white'}`}>
           <div className='flex items-center'>
             <FaUsers className='mr-3' />

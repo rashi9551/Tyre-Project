@@ -22,7 +22,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 }));
 
 
-function Tyres() {
+function TyresOrder() {
   const navigate=useNavigate()
   const [formData, setFormData] = useState({
     name: '',
@@ -42,7 +42,8 @@ function Tyres() {
   const handleSubmit =async (e) => {
     e.preventDefault();
     console.log('pppppppppppppppp');
-    const {data}=await axiosUser().post('/orderAlign',{formData,shopName})
+    formData.dueDateType= 'year'
+    const {data}=await axiosUser().post('/orderTyre',{formData,shopName})
     console.log(data,'00');
     if(data.message){
       navigate('/dashboard')
@@ -56,7 +57,7 @@ function Tyres() {
     <Container maxWidth="sm">
       <StyledPaper elevation={3}>
         <Typography variant="h4" component="h2" gutterBottom align="center" color="primary">
-          Tyre Alignment Form
+          Tyre Purchase Form
         </Typography>
         <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
           <TextField
@@ -120,6 +121,7 @@ function Tyres() {
             label="Amount"
             name="amount"
             type="number"
+            inputProps={{ min: 0, step: 0.01 }}
             value={formData.amount}
             onChange={handleChange}
           />
@@ -136,25 +138,25 @@ function Tyres() {
             }}
           />
           <TextField
-            margin="normal"
-            required
-            fullWidth
-            id="dueDate"
-            select
-            label="Due Date (Months)"
-            name="dueDate"
-            value={formData.dueDate}
-            onChange={handleChange}
-          >
-            <MenuItem value="" disabled>
-              Select due date
-            </MenuItem>
-            {[...Array(12)].map((_, i) => (
-              <MenuItem key={i + 1} value={i + 1}>
-                {i + 1}
-              </MenuItem>
-            ))}
-          </TextField>
+  margin="normal"
+  required
+  fullWidth
+  id="dueDate"
+  select
+  label="Due Date (Years)"
+  name="dueDate"
+  value={formData.dueDate}
+  onChange={handleChange}
+>
+  <MenuItem value="" disabled>
+    Select due date
+  </MenuItem>
+  {[1, 2, 3].map((year) => (
+    <MenuItem key={year} value={year}>
+      {year} {year === 1 ? 'year' : 'years'}
+    </MenuItem>
+  ))}
+</TextField>
           <Button
             type="submit"
             fullWidth
@@ -169,4 +171,4 @@ function Tyres() {
   );
 }
 
-export default Tyres;
+export default TyresOrder;

@@ -37,31 +37,32 @@ export default class Controller {
         }
     };
 
-    orderTyre = async (req, res) => {
+    orderAlign = async (req, res) => {
         try {
             const data = req.body;
             const { dueDate } = data.formData;
+            data.category = 'tyreAlign'
             const response = await repository.order(data);
-    
+
             if (response.message) {
                 const MessageResponse = await sendMessageTyre()
-                console.log(MessageResponse,"ithu first ponney");
+                console.log(MessageResponse, "ithu first ponney");
                 const monthsToAdd = parseInt(dueDate, 10);
                 if (isNaN(monthsToAdd) || monthsToAdd < 1 || monthsToAdd > 12) {
                     throw new Error('Invalid dueDate value');
                 }
-    
+
                 // Calculate the future date
                 const futureDate = new Date();
                 futureDate.setMonth(futureDate.getMonth() + monthsToAdd);
-    
+
                 // // Extract the parts for the cron expression
-                
+
                 // const minutes = futureDate.getMinutes();
                 // const hours = futureDate.getHours();
                 // const day = futureDate.getDate();
                 // const month = futureDate.getMonth() + 1; // Months are 0-based in JavaScript
-    
+
                 // // Create a cron expression: "minute hour day month *"
                 // const cronExpression = `${minutes} ${hours} ${day} ${month} *`;
 
@@ -70,10 +71,10 @@ export default class Controller {
                 const hours = now.getHours();
                 const day = now.getDate();
                 const month = now.getMonth() + 1; // Months are 0-based in JavaScript
-    
+
                 // Create a cron expression for 1 minute from now
                 const cronExpression = `${minutes % 60} ${hours} ${day} ${month} *`;
-    
+
                 // Schedule the cron job
                 cron.schedule(cronExpression, async () => {
                     console.log('Sending scheduled message...');
@@ -84,10 +85,10 @@ export default class Controller {
                         console.error('Error sending message:', messageError);
                     }
                 });
-    
+
                 console.log(`Cron job scheduled for ${futureDate}`);
             }
-            
+
             res.status(200).json(response);
         } catch (error) {
             console.error(error);
@@ -100,6 +101,7 @@ export default class Controller {
         try {
             console.log('oil data', req.body);
             const data = req.body;
+            data.category = 'oil'
             const response = await repository.order(data);
             res.status(200).json(response);
         } catch (error) {
@@ -108,6 +110,18 @@ export default class Controller {
         }
     };
 
+    orderTyre = async (req, res) => {
+        try {
+            console.log('tyre purchse data', req.body);
+            const data = req.body;
+            data.category = 'tyre'
+            const response = await repository.order(data);
+            res.status(200).json(response);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error in order tyre pruchase' });
+        }
+    }
     getOrders = async (req, res) => {
         try {
             const response = await repository.getOrders();
@@ -182,6 +196,16 @@ export default class Controller {
             console.error('Error in sendMessage:', e);
             resData.answer = e.message;
             return res.status(500).json(resData);
+        }
+    };
+    getGraphData = async (req, res) => {
+        try {
+            const { shopName } = req.body
+            const response = await repository.graphData(shopName);
+            res.status(200).json(response);
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ message: 'Error in getAuthority' });
         }
     };
 }

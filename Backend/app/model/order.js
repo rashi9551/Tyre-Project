@@ -7,7 +7,7 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   phone: {
-    type: String, 
+    type: String,
     required: true
   },
   date: {
@@ -15,6 +15,10 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   productName: {
+    type: String,
+    required: true
+  },
+  category: {
     type: String,
     required: true
   },
@@ -31,9 +35,9 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   shopName: {
-    type: String, 
+    type: String,
     required: true,
-    ref: 'Authority' 
+    ref: 'Authority'
   }
 }, { timestamps: true });
 

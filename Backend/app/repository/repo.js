@@ -8,7 +8,7 @@ export default class repo {
         try {
             const checkAuthority = await Authority.findOne({ shopName: data.shopName })
             if (!checkAuthority) {
-                return { message: false  }
+                return { message: false }
             }
             console.log(data, checkAuthority);
             const isMatch = await checkAuthority.matchPassword(data.password)
@@ -40,11 +40,17 @@ export default class repo {
     order = async (data) => {
         try {
             console.log('ppp----', data.formData);
-            const { shopName, formData: { name, phone, productName, amount, vehicleNumber, dueDate } } = data;
-            const dueDateCalculated = addMonths(new Date(), parseInt(dueDate, 10) || 0);
+            const { shopName, category, formData: { name, phone, productName, amount, vehicleNumber, dueDate, dueDateType } } = data;
+            let dueDateCalculated;
+            if (dueDateType == 'year') {
+                dueDateCalculated = addYears(new Date(), parseInt(dueDate, 10) || 0);
+            } else {
+                dueDateCalculated = addMonths(new Date(), parseInt(dueDate, 10) || 0);
+            }
+
             console.log(format(dueDateCalculated, 'yyyy-MM-dd'));
             const order = new Order({
-                name, shopName, phone, productName, amount, vehicleNumber,
+                name, shopName, phone, productName, amount, vehicleNumber, category,
                 date: new Date(),
                 dueDate: dueDateCalculated
             });
@@ -66,6 +72,15 @@ export default class repo {
     getAuthority = async () => {
         try {
             const authority = await Authority.find()
+            console.log(authority);
+            return authority
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    graphData = async (shopName) => {
+        try {
+            const authority = await Order.find()
             console.log(authority);
             return authority
         } catch (error) {
