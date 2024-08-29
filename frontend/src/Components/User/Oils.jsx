@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axiosUser from '../../services/axios/authorityAxios';
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { 
-  TextField, 
-  Button, 
-  Container, 
-  Typography, 
-  Box, 
+import {
+  TextField,
+  Button,
+  Container,
+  Typography,
+  Box,
   MenuItem,
   Paper
 } from '@mui/material';
@@ -54,27 +54,28 @@ const StyledPhoneInput = styled(PhoneInput)(({ theme }) => ({
 }));
 
 function Oils() {
-  const {shopName}=useSelector((store)=>store.UserData)
-  const navigate=useNavigate()
+  const { shopName } = useSelector((store) => store.UserData)
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
-    name:'',
+    name: '',
     phone: '',
     productName: '',
-    vehicleNumbe:'',
+    vehicleNumbe: '',
     amount: '',
-    dueMonths: ''
+    dueMonths: '',
+    category: ''
   });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit =async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('pppppppppppppppp');
-    const {data}=await axiosUser().post('/orderOil',{formData,shopName})
-    console.log(data,'00');
-    if(data.message){
+    const { data } = await axiosUser().post('/orderOil', { formData, shopName })
+    console.log(data, '00');
+    if (data.message) {
       navigate('/dashboard')
       toast.success("Order Created Succesfully")
     }
@@ -102,9 +103,9 @@ function Oils() {
             onChange={handleChange}
           />
           <PhoneInput
-            country={'us'} 
+            country={'us'}
             value={formData.phone}
-            onChange={phone => setFormData({...formData, phone})}
+            onChange={phone => setFormData({ ...formData, phone })}
             inputStyle={{
               width: '100%',
               height: '56px',
@@ -132,7 +133,24 @@ function Oils() {
             value={formData.productName}
             onChange={handleChange}
           />
-           <TextField
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="category"
+            select
+            label="Category"
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+          >
+            <MenuItem value="" disabled>
+              Select category
+            </MenuItem>
+            <MenuItem value="PCR">PCR</MenuItem>
+            <MenuItem value="TBR">TBR</MenuItem>
+          </TextField>
+          <TextField
             margin="normal"
             required
             fullWidth
