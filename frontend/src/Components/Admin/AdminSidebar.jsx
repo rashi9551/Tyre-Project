@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaSignOutAlt, FaTachometerAlt, FaUsers, FaChartLine, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSignOutAlt, FaTachometerAlt, FaUsers, FaChartLine, FaBars, FaTimes, FaUserTie } from 'react-icons/fa';
 import { adminLogout } from '../../Redux/Slice';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -71,6 +71,12 @@ function AdminSidebar() {
             <div className='flex items-center'>
               <FaChartLine className='mr-3' />
               <span>Send Offer</span>
+            </div>
+          </Link>
+          <Link to='/admin/employees' className={`${linkClasses} ${isActive('/admin/employees') ? activeLinkClasses : ''}`}>
+            <div className='flex items-center'>
+              <FaUserTie className='mr-3' />
+              <span>Employees</span>
             </div>
           </Link>
           <Link to='/admin/customers' className={`${linkClasses} ${isActive('/admin/customers') ? activeLinkClasses : ''}`}>
